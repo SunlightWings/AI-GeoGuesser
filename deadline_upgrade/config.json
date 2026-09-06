@@ -1,0 +1,11 @@
+{
+  "seed": 2026,
+  "model": {"backbone": "efficientnet_b0", "pretrained": true, "embedding_dim": 256, "dropout": 0.15, "normalization": "imagenet"},
+  "geocells": {"fine_target_size": 24, "coarse_target_size": 96},
+  "data": {"rotation_probability": 0.0},
+  "train": {"stages": [{"image_size": 320, "epochs": 24, "batch_size": 16}], "backbone_lr": 0.0001, "head_lr": 0.0005, "weight_decay": 0.01},
+  "inference": {"top_cells_train": 8, "top_cells": 1, "temperature": 0.85, "country_gate": 0.5, "residual_scale": 0.025, "global_blend": 0.0, "tta": "none"},
+  "loss": {"fine_tau_km": 70.0, "coarse_tau_km": 180.0, "soft_target_fraction": 0.2, "country_label_smoothing": 0.04, "contrastive_temperature": 0.1, "weights": {"fine": 1.0, "coarse": 0.35, "country": 0.4, "global": 0.25, "residual": 1.0, "decoded": 2.0, "contrastive": 0.06}},
+  "kd": {"probability_weight": 0.3, "feature_weight": 0.3, "temperature": 2.0},
+  "rules": {"max_parameters": 5000000, "pretrained_permitted": true, "teacher_training_only": true}
+}

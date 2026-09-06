@@ -1,0 +1,53 @@
+experiment_name: mobilenet_v3_small_leaderboard
+seed: 2026
+data:
+  root: ../../geo_dataset
+  expected_holdout_count: 2400
+  require_all_countries: true
+  num_workers: auto
+  rotation_probability: 0.50
+split:
+  kind: predefined
+  n_folds: 5
+  folds_csv: leaderboard/folds.csv
+  spatial_target_group_size: 40
+model:
+  backbone: mobilenet_v3_small
+  pretrained: false
+  backbone_checkpoint: null
+  embedding_dim: 256
+  dropout: 0.15
+  normalization: half
+geocells:
+  fine_target_size: 24
+  coarse_target_size: 96
+loss:
+  fine_tau_km: 70.0
+  coarse_tau_km: 180.0
+  soft_target_fraction: 0.20
+  country_label_smoothing: 0.04
+  contrastive_temperature: 0.10
+  weights: {fine: 1.0, coarse: 0.35, country: 0.4, global: 0.25, residual: 1.0, decoded: 2.0, contrastive: 0.06}
+train:
+  output_dir: outputs/mobilenet_v3_small_leaderboard
+  amp: true
+  deterministic: false
+  weight_decay: 0.05
+  warmup_fraction: 0.05
+  ema_decay: 0.0
+  grad_clip: 1.0
+  samples_per_cell: 2
+  patience: 12
+  stages:
+    - {image_size: 224, epochs: 40, batch_size: 48, eval_batch_size: 96, learning_rate: 0.0007, accumulation_steps: 1, freeze_backbone: false}
+    - {image_size: 320, epochs: 12, batch_size: 24, eval_batch_size: 48, learning_rate: 0.00015, accumulation_steps: 1, freeze_backbone: false}
+inference:
+  top_cells_train: 8
+  top_cells: 1
+  temperature: 0.85
+  country_gate: 2.0
+  residual_scale: 0.025
+  global_blend: 0.0
+  tta: rot180
+rules:
+  max_parameters: 5000000

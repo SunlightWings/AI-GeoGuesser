@@ -1,0 +1,5 @@
+experiment_id,date,git_commit,config,fold,seed,backbone,initialization,image_schedule,fine_target_size,coarse_target_size,parameter_count,median_km,mean_km,lt_200_km,lt_750_km,country_accuracy,runtime_minutes,status,notes
+E10,,,,0,2026,mobilenet_v3_small,scratch,"224->320",24,96,,,,,,,,planned,Fast baseline
+E11,,,,0,2026,efficientnet_b0,scratch,"256->384",24,96,4876618,,,,,,,planned,Main safe baseline
+E13,,,,0,2026,efficientnet_b0,train_only_simclr,"256->384",24,96,4876618,,,,,,,planned,No external data
+

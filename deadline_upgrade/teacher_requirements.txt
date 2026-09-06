@@ -1,0 +1,10 @@
+# Install in a separate teacher venv, after matching CUDA PyTorch/torchvision.
+transformers==4.51.3
+geoclip
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.6.1
+Pillow==11.1.0
+PyYAML==6.0.2
+tqdm==4.67.1
+# Record `python -m pip freeze` with each cache; actual teacher weights are hashed.

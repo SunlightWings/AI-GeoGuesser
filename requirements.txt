@@ -1,0 +1,14 @@
+# Install the correct PyTorch/CUDA wheel for your machine first if needed:
+# https://pytorch.org/get-started/locally/
+torch==2.7.1
+torchvision==0.22.1
+numpy==1.26.4
+pandas==2.2.3
+Pillow==11.1.0
+PyYAML==6.0.2
+scikit-learn==1.6.1
+tqdm==4.67.1
+matplotlib==3.10.0
+jupyter==1.1.1
+pytest==8.3.5
+

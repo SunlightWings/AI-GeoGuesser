@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: compact-europe-geolocation
+Version: 1.0.0
+Summary: Reproducible sub-5M-parameter European image geolocation pipeline
+Requires-Python: <3.13,>=3.10
+Requires-Dist: numpy==1.26.4
+Requires-Dist: pandas==2.2.3
+Requires-Dist: Pillow==11.1.0
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: scikit-learn==1.6.1
+Requires-Dist: torch==2.7.1
+Requires-Dist: torchvision==0.22.1
+Requires-Dist: tqdm==4.67.1
+Provides-Extra: dev
+Requires-Dist: jupyter==1.1.1; extra == "dev"
+Requires-Dist: matplotlib==3.10.0; extra == "dev"
+Requires-Dist: pytest==8.3.5; extra == "dev"

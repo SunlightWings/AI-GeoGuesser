@@ -1,0 +1,38 @@
+experiment_name: smoke
+seed: 2026
+data:
+  root: outputs/smoke_data
+  expected_holdout_count: 2
+  require_all_countries: false
+  num_workers: 0
+  rotation_probability: 0.0
+split: {kind: random, n_folds: 2, spatial_target_group_size: 2}
+model:
+  backbone: mobilenet_v3_small
+  pretrained: false
+  backbone_checkpoint: null
+  embedding_dim: 32
+  dropout: 0.0
+  normalization: half
+geocells: {fine_target_size: 2, coarse_target_size: 4}
+loss:
+  fine_tau_km: 100.0
+  coarse_tau_km: 250.0
+  soft_target_fraction: 0.1
+  country_label_smoothing: 0.0
+  contrastive_temperature: 0.1
+  weights: {fine: 1.0, coarse: 0.2, country: 0.2, global: 0.1, residual: 0.2, decoded: 0.5, contrastive: 0.0}
+train:
+  output_dir: outputs/smoke_run
+  amp: false
+  deterministic: true
+  weight_decay: 0.0
+  warmup_fraction: 0.0
+  ema_decay: 0.0
+  grad_clip: 1.0
+  samples_per_cell: 2
+  patience: 2
+  stages:
+    - {image_size: 64, epochs: 1, batch_size: 2, eval_batch_size: 2, learning_rate: 0.0005, accumulation_steps: 1, freeze_backbone: false}
+inference: {top_cells_train: 2, top_cells: 1, temperature: 1.0, country_gate: 1.0, residual_scale: 0.025, global_blend: 0.0, tta: none}
+rules: {max_parameters: 5000000}

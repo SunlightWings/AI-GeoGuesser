@@ -1,0 +1,59 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.68in]{geometry}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{TODO: #1}}}
+\newcommand{\medkm}{\todo{median km}}
+\newcommand{\meankm}{\todo{mean km}}
+
+\title{Compact Hierarchical Spherical Geolocation}
+\author{\todo{name / student ID}}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.4em}
+
+\textbf{Validation.}
+I used five country-stratified folds (seed 2026) for model selection and a second, spatially grouped split to expose route/location leakage. I selected by the official lexicographic objective: median haversine distance, then mean distance. Cell partitions were fitted on each fold's training rows only. The final model was refitted on all 11,758 labelled images after fixing every hyperparameter. Holdout images were used only once for inference.
+
+\textbf{Method.}
+A randomly initialized EfficientNet-B0 feature extractor feeds a 256-dimensional embedding. Four complementary heads predict (i) one of 12 countries, (ii) adaptive fine geocells, (iii) coarse geocells, and (iv) a global 3D unit vector. Geocells are spherical K-means clusters fitted separately within each country; the final setting targets 24 and 96 samples per fine/coarse cell. A fifth head predicts a bounded 3D residual from every fine-cell medoid. At inference, country log-probability gates fine-cell scores; the top cells are probability-averaged in Cartesian unit-vector space, refined by the residual, blended slightly with global regression, normalized, and converted to latitude/longitude. This preserves multimodal uncertainty while avoiding longitude wraparound.
+
+The objective combines soft geographic cross-entropy at two resolutions, country cross-entropy, angular losses for global/within-cell/decoded coordinates, and a small supervised contrastive term. Nearby cells within the true country receive soft target mass. Training uses AdamW, cosine decay with warm-up, EMA weights, progressive $256\!\rightarrow\!384$ resolution, color/blur/crop augmentation, EXIF orientation repair, and occasional quarter-turn augmentation because inverted captures occur in the data. The complete inference model has exactly \textbf{4,876,618 parameters}, below the 5M cap. No external weights, images, synthetic data, retrieval bank, or holdout adaptation are used.
+
+\textbf{Experiments.}
+Before image training, label-only diagnostics gave 1203.43 km median for one global medoid and 291.58 km for an oracle true-country medoid: country recognition alone is inadequate. A nearest-cell oracle improved from 78.31 km at 96 samples/cell to 30.32 km at 24 samples/cell, motivating the fine partition, but still leaves a learnability trade-off.
+
+\begin{center}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Experiment & Median km & Mean km & $<200$ km & $<750$ km \\
+\midrule
+MobileNet-V3-Small, scratch & \todo{} & \todo{} & \todo{} & \todo{} \\
+EfficientNet-B0, scratch & \todo{} & \todo{} & \todo{} & \todo{} \\
++ supplied-data SimCLR & \todo{} & \todo{} & \todo{} & \todo{} \\
+Spatial stress test & \todo{} & \todo{} & \todo{} & \todo{} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{What failed / changed.}
+\todo{Replace with honest observed failures. Suggested topics: direct regression collapse toward country centers; overly fine cells becoming data-starved; four-rotation TTA harming upright scenes; spatial split degradation. Do not claim tests not run.}
+
+The selected cross-validated result was \medkm{} median and \meankm{} mean. Decoder calibration used validation predictions only. \todo{Report final runtime, GPU, selected epochs, and holdout output checks.}
+
+\textbf{References.}
+Weyand et al., ``PlaNet: Photo Geolocation with Convolutional Neural Networks,'' ECCV 2016.
+Haas et al., ``PIGEON: Predicting Image Geolocations,'' CVPR 2024.
+Chen et al., ``A Simple Framework for Contrastive Learning of Visual Representations,'' ICML 2020.
+Tan and Le, ``EfficientNet,'' ICML 2019.
+
+\end{document}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compact Europe Image Geolocation
 
 A reproducible PyTorch project for the course challenge: predict `(latitude, longitude)` from 512×512 European road-scene images while keeping the submitted network at or below **5,000,000 parameters** and training only on the supplied data.
@@ -275,3 +276,6 @@ Deterministic mode can be enabled in a config, but exact bitwise reproducibility
 ## Scientific basis
 
 The method follows the geocell-classification insight of [PlaNet](https://arxiv.org/abs/1602.05314), adds a compact hierarchical coordinate decoder inspired by modern geolocation systems such as [PIGEON](https://openaccess.thecvf.com/content/CVPR2024/html/Haas_PIGEON_Predicting_Image_Geolocations_CVPR_2024_paper.html), and offers supplied-data-only [SimCLR](https://proceedings.mlr.press/v119/chen20j.html) initialization. The backbone implementation and official parameter reference come from [Torchvision EfficientNet-B0](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.efficientnet_b0.html).
+=======
+Contains AI geoguesser model
+>>>>>>> origin/main

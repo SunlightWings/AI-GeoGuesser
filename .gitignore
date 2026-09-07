@@ -9,6 +9,10 @@ geo_dataset/
 *.pth
 predictions.csv
 submission.zip
+
+# Keep the three required final-submission artifacts while ignoring experimental copies.
+!final_submission/final_model.pt
+!final_submission/predictions.csv
 report/main.aux
 report/main.log
 report/main.out

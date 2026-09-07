@@ -1,0 +1,17 @@
+Final 5-fold cross-validation, pooled over 11,758 out-of-fold predictions
+
+Raw cosine 1-NN:
+Median: 72.9016 km
+Mean: 385.8910 km
+<200 km: 62.5106%
+<750 km: 82.8542%
+<40 km: 43.0771%
+
+Transductive CSLS retrieval:
+Median: 69.9286 km
+Mean: 381.9566 km
+<200 km: 62.4086%
+<750 km: 82.9138%
+<40 km: 43.5788%
+
+Inference parameters: 4,876,618

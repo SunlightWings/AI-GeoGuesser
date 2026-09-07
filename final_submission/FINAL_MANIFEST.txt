@@ -1,0 +1,37 @@
+Final GeoGuesser system
+
+Student:
+- EfficientNet-B0 based student
+- 4,876,618 inference parameters
+- ImageNet pretrained initialization
+- Ground-truth geographic supervision
+- StreetCLIP k=4 neighborhood knowledge distillation
+- 320x320 input
+- 24 epochs
+
+Inference:
+- Training-image embedding reference bank
+- Cosine nearest-neighbour retrieval
+- Final candidate additionally uses transductive CSLS hubness correction (k=10)
+- No holdout labels used
+- No parameter updates using holdout images
+
+Honest pooled 5-fold OOF:
+Raw 1-NN:
+  Median: 72.9016 km
+  Mean: 385.8910 km
+  <200 km: 62.5106%
+  <750 km: 82.8542%
+
+CSLS:
+  Median: 69.9286 km
+  Mean: 381.9566 km
+  <200 km: 62.4086%
+  <750 km: 82.9138%
+
+Final files:
+- final_model.pt
+- train_bank.npz
+- predictions.csv          [CSLS candidate]
+- predictions_raw.csv      [conservative fallback]
+- predictions_csls.csv
